@@ -1,7 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,12 +37,10 @@
     </script>
     <link rel="stylesheet" href="{% static '/css/styles.css' %}">
 </head>
-
 <body>
     <header>
         <a href="/"><img src="/static/src/logo.png" class="logo"></a>
         {% if user.is_authenticated %}
-        
         {% if user.name %}
         <h1 style="align-items: center; text-align: center;">
             ¡Bienvenido <cite>{{ user.name }}</cite>!</h1>
@@ -62,15 +59,11 @@
             {% endif %}
         </nav>
     </header>
-
     <main>
 
         {% block content %}
         {% endblock %}
-
-
     </main>
-
     <footer>
         <p>&copy; 2022-2024</p>
         <nav>
@@ -84,5 +77,4 @@
         </nav>
     </footer>
 </body>
-
 </html>

@@ -198,13 +198,9 @@ def update_profile(request, profile_id):
         form = ExtendedUserForm(request.POST, instance=user_temp)
         try:
             emailTemp = emailVerification(request.POST["email"])
-
-            if len(emailTemp) == 0:
-                
+            if len(emailTemp) == 0:     
                 if form.is_valid():
-
                     form.save()
-
                     return redirect('home_page') 
             else:
                 return render(request, 'users/user_form.html', {
@@ -216,7 +212,6 @@ def update_profile(request, profile_id):
                 'form': form,
                 "error": 'Correo ya existe'
             })
-        
     else:
         form = ExtendedUserForm(instance=user_temp)
     

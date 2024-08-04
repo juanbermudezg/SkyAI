@@ -2,6 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from .models import User, Flight, Airliner, LocationAirport, Flight_AI
 from datetime import date
+from django_select2.forms import Select2Widget
 
 class CreateNewUserForm(UserCreationForm):
     email = forms.CharField(max_length=50, required=True, help_text='Required. Add a valid phone number.')
@@ -40,13 +41,13 @@ class FlightForm(forms.ModelForm):
         empty_label="Seleccione una aerolínea"
     )
     from_airport = forms.ModelChoiceField(
-        queryset=LocationAirport.objects.all(),
-        widget=forms.Select(attrs={'class': 'form-control'}),
+        queryset=LocationAirport.objects.all().order_by('IATA_Code'),
+        widget=Select2Widget(attrs={'class': 'form-control'}),
         empty_label="Seleccione aeropuerto de salida"
     )
     to_airport = forms.ModelChoiceField(
-        queryset=LocationAirport.objects.all(),
-        widget=forms.Select(attrs={'class': 'form-control'}),
+        queryset=LocationAirport.objects.all().order_by('IATA_Code'),
+        widget=Select2Widget(attrs={'class': 'form-control'}),
         empty_label="Seleccione aeropuerto de llegada"
     )
     date = forms.DateField(
@@ -65,6 +66,11 @@ class FlightForm(forms.ModelForm):
         widgets = {
             'flight_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Escribe el número de vuelo:'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['from_airport'].queryset = LocationAirport.objects.all().order_by('IATA_Code')
+        self.fields['to_airport'].queryset = LocationAirport.objects.all().order_by('IATA_Code')
 
 class FlightDetailForm(forms.ModelForm):
     airliner = forms.ModelChoiceField(
