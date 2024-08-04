@@ -16,6 +16,23 @@ class CreateNewUserForm(UserCreationForm):
             user.save()
         return user
 
+class ExtendedUserForm(forms.ModelForm):
+
+    name = forms.CharField(max_length=15, required=False)
+    lastname = forms.CharField(max_length=15, required=False)
+    email = forms.EmailField(max_length=50, required=True)
+
+    class Meta:
+        model = User
+        fields = ('name', 'lastname', 'email')
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+        return user
+
 class FlightForm(forms.ModelForm):
     airliner = forms.ModelChoiceField(
         queryset=Airliner.objects.all(),

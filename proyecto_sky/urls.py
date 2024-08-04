@@ -30,4 +30,7 @@ urlpatterns = [
     path('flight/<int:flight_id>/', views.flight_detail, name="flight_detail"),
     path('flight/<int:flight_id>/delete_flight/', views.delete_flight, name='delete_flight'),
     path('flights/create/', views.create_flight, name="create_flight"),
+    path('profile/<int:profile_id>/', views.profile_detail, name="profile_detail"),
+    path('profile/<int:profile_id>/delete_profile/', views.delete_profile, name='delete_profile'),
+    path('profile/<int:profile_id>/update_profile/', views.update_profile, name='update_profile'),
 ]

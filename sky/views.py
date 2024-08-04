@@ -1,16 +1,15 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import CreateNewUserForm, FlightAIDetailForm, FlightDetailForm, FlightForm
+from .forms import CreateNewUserForm, FlightAIDetailForm, FlightDetailForm, FlightForm, ExtendedUserForm
 from .utils.verification import userVerification, passVerification, emailVerification
 from django.contrib.auth import login, authenticate, logout
 from .models import User, Flight, Flight_AI
 from django.contrib.auth.decorators import login_required
 from .utils.functionAI import finalDef
-
+from django.http import Http404
 
 def helloworld(request):
     return render(request, 'construction.html')
-
 
 def sign_up(request):
     if request.method == 'GET':
@@ -48,23 +47,26 @@ def sign_in(request):
             'form': AuthenticationForm
         })
     else:
-        user = authenticate(
-            request, username=request.POST.get('username'), password=request.POST.get('password'))
-        if user is None:
+        try:
+            user = authenticate(
+                request, username=request.POST.get('username'), password=request.POST.get('password'))
+            if user is None:
+                return render(request, 'users/sign_in.html', {
+                    'form': AuthenticationForm,
+                    'error': 'Usuario y/o contraseña incorrectas'
+                })
+            else:
+                login(request, user)
+                return redirect('home_page')
+        except:
             return render(request, 'users/sign_in.html', {
-                'form': AuthenticationForm,
-                'error': 'Usuario y/o contraseña incorrectas'
-            })
-        else:
-            login(request, user)
-            return redirect('home_page')
-
-
+                    'form': AuthenticationForm,
+                    'error': 'Usuario y/o contraseña incorrectas'
+                })
 @login_required
 def sign_out(request):
     logout(request)
     return redirect('home_page')
-
 
 @login_required
 def flights(request):
@@ -72,7 +74,6 @@ def flights(request):
     return render(request, 'vuelos.html', {
         'flights': flights
     })
-
 
 @login_required
 def create_flight(request):
@@ -109,11 +110,9 @@ def create_flight(request):
                 'error': 'Ingresa datos válidos'
             })
 
-
 @login_required
 def flight_detail(request, flight_id):
     flight = get_object_or_404(Flight, id=flight_id)
-   
     flight_ai, created = Flight_AI.objects.get_or_create(original_flight=flight)
     if request.method == 'POST':
         if 'calculate_flight_ai' in request.POST:
@@ -170,3 +169,55 @@ def delete_flight(request, flight_id):
     if request.method == 'POST':
         flight.delete()
         return redirect('flights')
+    
+@login_required
+def profile_detail(request, profile_id):
+    user_temp = get_object_or_404(User, id = profile_id)
+    if request.user != user_temp:
+        raise Http404("No tienes permiso para ver este perfil.")
+    return render(request, 'users/profile_detail.html', {
+        'profile': user_temp
+    })
+
+@login_required
+def delete_profile(request, profile_id):
+    user_temp = get_object_or_404(User, id = profile_id)
+    if request.user != user_temp:
+        raise Http404("No tienes permiso para ver este perfil.")
+    if request.method == 'POST':
+        user_temp.delete()
+        return redirect('home_page') 
+    return render(request, 'users/user_confirm_delete.html', {'user': user_temp})
+
+@login_required
+def update_profile(request, profile_id):
+    user_temp = get_object_or_404(User, id = profile_id)
+    if request.user != user_temp:
+        raise Http404("No tienes permiso para ver este perfil.")
+    if request.method == 'POST':
+        form = ExtendedUserForm(request.POST, instance=user_temp)
+        try:
+            emailTemp = emailVerification(request.POST["email"])
+
+            if len(emailTemp) == 0:
+                
+                if form.is_valid():
+
+                    form.save()
+
+                    return redirect('home_page') 
+            else:
+                return render(request, 'users/user_form.html', {
+                    'form': form,
+                    "error": emailTemp
+                })
+        except:
+            return render(request, 'users/user_form.html', {
+                'form': form,
+                "error": 'Correo ya existe'
+            })
+        
+    else:
+        form = ExtendedUserForm(instance=user_temp)
+    
+    return render(request, 'users/user_form.html', {'form': form})
