@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sky-AI Navigator</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const storageTheme = localStorage.getItem('theme');
+            const systemColorScheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            const newTheme = storageTheme || systemColorScheme;
+            document.documentElement.setAttribute('data-theme', newTheme);
+            const switcherTheme = document.querySelector('.main__check');
+            if (newTheme === 'dark') {
+                switcherTheme.checked = true;
+            }
+            switcherTheme.addEventListener('change', toggleTheme);
+
+            function toggleTheme() {
+                const isChecked = switcherTheme.checked;
+                const newTheme = isChecked ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateSwitcher(isChecked);
+            }
+
+            function updateSwitcher(isChecked) {
+                const mainOption = document.querySelector('.main__option');
+                if (isChecked) {
+                    mainOption.style.transform = 'translateX(100%)';
+                } else {
+                    mainOption.style.transform = 'translateX(0)';
+                }
+            }
+        });
+    </script>
+    <link rel="stylesheet" href="{% static '/css/styles.css' %}">
+</head>
+
+<body>
+    <header>
+        <a href="/"><img src="/static/src/logo.png" class="logo"></a>
+        <nav>
+            {% if user.is_authenticated %}
+            <a href="/">Inicio</a>
+            <a href="{% url 'flights' %}">Vuelos</a>
+            <a href="{% url 'create_flight' %}">Agregar vuelo</a>
+            <a href="{% url 'sign_out' %}">Salir</a>
+            {% else %}
+            <a href="{% url 'sign_up' %}">Registrarse</a>
+            <a href="{% url 'sign_in' %}">Iniciar sesión</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+
+        {% block content %}
+        {% endblock %}
+
+
+    </main>
+
+    <footer>
+        <p>&copy; 2022-2024</p>
+        <nav>
+            <a href="https://github.com/juanbermudezg" target="_blank">
+                Juan Bermudez's GitHub
+            </a>
+
+            <a href="https://github.com/romacorp" target="_blank">
+                Jose Rodriguez's GitHub
+            </a>
+        </nav>
+    </footer>
+</body>
+
+</html>

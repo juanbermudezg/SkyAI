@@ -1,0 +1,184 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<style>
+    .pdf-viewer {
+        width: 44%;
+        height: 600px;
+        border: 1px solid #ccc;
+        overflow-y: auto;
+        overflow-x: auto;
+        display: inline-block;
+        vertical-align: top;
+        margin: 2%;
+    }
+    
+    .articles {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 2%;
+    }
+    
+    canvas {
+        display: block;
+        margin: 0 auto 10px auto;
+    }
+    
+    ul {
+        margin: 0px 30px;
+    }
+    
+    h1 {
+        margin: 0px 30px;
+    }
+    
+    .pplPhoto {
+        max-width: 200px;
+        height: 200px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 20px;
+        min-width: none;
+        flex: 1 1 300px;
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+<script>
+    const pdfjsLib = window['pdfjs-dist/build/pdf'];
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+    function renderPDF(url, containerId) {
+        pdfjsLib.getDocument(url).promise.then(pdfDoc => {
+            const viewer = document.getElementById(containerId);
+            const containerWidth = viewer.clientWidth;
+
+            for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+                pdfDoc.getPage(pageNum).then(page => {
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    const viewport = page.getViewport({ scale: 1 });
+
+                    const scale = containerWidth / viewport.width;
+                    const scaledViewport = page.getViewport({ scale: scale });
+                    canvas.height = scaledViewport.height;
+                    canvas.width = scaledViewport.width;
+                    viewer.appendChild(canvas);
+                    const renderContext = {
+                        canvasContext: context,
+                        viewport: scaledViewport
+                    };
+                    page.render(renderContext);
+                });
+            }
+        }).catch(error => {
+            console.error('Error al cargar el PDF:', error);
+        });
+    }
+    const url1 = 'static/src/10_CPA1902.pdf';
+    const url2 = 'static/src/arg.pdf';
+    renderPDF(url1, 'pdf-viewer1');
+    renderPDF(url2, 'pdf-viewer2');
+</script>
+<img src="static/src/sky.png" class="textIMG">
+
+<section class="bodyMain">
+    <img src="static/src/prom.png" class="textIMG">
+    <p>Sky-AI Navigator es un proyecto creado por <a href="https://github.com/juanbermudezg">Juan Bermúdez</a> y <a
+            href="https://github.com/romacorp">José Rodriguez</a> que busca generar un algoritmo de inteligencia
+        artificial para la predicción del <cite>status</cite> y tiempos reales de despegue y aterrizaje de vuelos desde
+        y hacia el Aeropuerto Internacional Eldorado en la ciudad de Bogotá D.C.</p>
+    <p>Con el objetivo de generar este proyecto, se realizó una recolección de datos de vuelo desde <a
+            href="https://www.flightradar24.com">flightradar24.com</a> con un periodo de tiempo superior a 2 años,
+        posteriormente se generaron dos modelos de inteligencia artificial: <cite>status prediction</cite> y <cite>time
+            prediction</cite>. Con esto, se fabricó el servicio web con uso de la tecnología Python para una
+        visualización global.</p>
+    <p>Adicionalmente la creación de los modelos de predicción están basados en investigaciones científicas por parte de
+        la <a href="https://www.ejercito.mil.co/escuela-de-aviacion-del-ejercito/">Escuela de Aviación del Ejército</a>
+        que se muestran a continuación:</p>
+    <ul>
+        <li>
+            <p>La primera investigación es el artículo <cite>Integracion de algoritmos de inteligencia artificial en
+                    función del pronóstico de consumo de combustible en aeronaves ERJ 145 de una aerolinea
+                    colombiana</cite> presentada en La Plata - Buenos Aires - Argentina en marco del 7mo Congreso
+                Argentino de Ingeniería Aeronáutica. Disponible en <a
+                    href="https://sedici.unlp.edu.ar/handle/10915/162503">sedici.unlp.edu.ar</a></p>
+        </li>
+        <li>
+            <p>La segunda investigación es el artículo <cite>Aplicación de un modelo predictivo de consumo de
+                    combustible a partir de machine learning y random forest para una aerolínea comercial
+                    colombiana</cite> presentada para la revista Ciencia y Poder Aéreo de la Escuela de Postgrados de la
+                Fuerza Aérea Colombiana. Disponible en <a
+                    href="https://publicacionesfac.com/index.php/cienciaypoderaereo/article/view/826">https://publicacionesfac.com</a>
+            </p>
+        </li>
+    </ul>
+    <section class="articles">
+        <div id="pdf-viewer2" class="pdf-viewer"></div>
+        <div id="pdf-viewer1" class="pdf-viewer"></div>
+    </section>
+
+</section>
+<img src="static/src/desarrolladores.png" class="textIMG">
+<section class="bodyMain">
+    <h1 style="margin: 10px 0px;">Juan Andrés Bermúdez Gómez
+    </h1>
+    <div style="display: inline-flex;  margin: 30px 30px;">
+        <img src="static/src/juan.png" class="pplPhoto">
+        <p>Soy Juan Andrés Bermúdez Gómez, un apasionado profesional con una sólida experiencia en desarrollo de
+            software y ciencia de datos. Me especializo en diseñar y construir soluciones tecnológicas innovadoras que
+            abordan desafíos complejos. En mi GitHub, pueden ver mi trayectoria destacada en una amplia gama de
+            proyectos, que van desde aplicaciones web y móviles hasta análisis de datos avanzados. Me especializo en
+            lenguajes como Python y JavaScript, y tengo experiencia con diversas tecnologías de front-end y back-end, lo
+            que me permite desarrollar soluciones integrales y eficientes.
+            <br><br>
+            En LinkedIn, pueden conocer más sobre mi enfoque en la implementación de algoritmos de inteligencia
+            artificial y machine learning. Cuento con una formación académica sólida en ingeniería de sistemas, y mi
+            carrera se ha caracterizado por la creación de proyectos innovadores en el ámbito de la aeronáutica. Me
+            enorgullece haber trabajado en la creación de soluciones tecnológicas para la predicción y análisis de
+            vuelos, lo que ha contribuido significativamente a mejorar la eficiencia y seguridad en el sector. Mi
+            objetivo es seguir impulsando la tecnología para transformar el presente y futuro de la industria
+            aeronáutica.
+        </p>
+        <ul style="text-align: left;flex-wrap: wrap;">
+            <li>
+                <a href="https://www.linkedin.com/in/juanbermudezgomez/">LinkedIn</a>
+            </li>
+            <li>
+                <a href="https://github.com/juanbermudezg">GitHub</a>
+            </li>
+            <li>
+                <a href="mailto:eng.juanb@gmail.com">eng.juanb@gmail.com</a>
+            </li>
+        </ul>
+</section>
+<section class="bodyMain" style="flex-wrap: wrap;">
+    <h1 style="margin: 10px 0px;">José Manuel Rodriguez Sanchez
+    </h1>
+    <div style="display: inline-flex;  margin: 30px 30px;">
+        <img src="static/src/jose.jpg" class="pplPhoto">
+        <p>A través de mi trayectoria laboral he consolidado habilidades que han impulsado así mi efectividad
+            profesional. Es así que mi enfoque en la responsabilidad ha garantizado un cumplimiento efectivo en todas
+            mis tareas y obligaciones. La autogestión ayuda a maximizar mi productividad y enfrentar eficientemente
+            desafíos. He ejercido un liderazgo inspirador dirigiendo equipos, aplicando la cooperación y la toma de
+            decisiones enfocadas a lograr resultados sobresalientes. La inteligencia social ha impulsado relaciones
+            efectivas y adaptabilidad, facilitando una comunicación fluida en diversos contextos. Con habilidades de
+            arbitraje, he resuelto conflictos y fomentado una comunicación efectiva, contribuyendo a un ambiente
+            armonioso. Mi disposición para colaborar y trabajar en equipo ha sido esencial para alcanzar metas
+            compartidas y el éxito colectivo. Esta experiencia, respaldada por mi enfoque en la efectividad gerencial,
+            me motiva a asumir nuevos desafíos y contribuir de manera significativa.
+        </p>
+        <ul style="text-align: left;flex-wrap: wrap;">
+            <li>
+                <a href="https://www.linkedin.com/in/jose-manuel-rodriguez-sanchez-a527171a5/">LinkedIn</a>
+            </li>
+            <li>
+                <a href="https://github.com/romacorp">GitHub</a>
+            </li>
+            <li>
+                <a href="mailto:josemrods86@gmail.com">josemrods86@gmail.com</a>
+            </li>
+        </ul>
+    </div>
+</section>
+{% endblock %}

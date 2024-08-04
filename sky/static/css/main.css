@@ -1,0 +1,236 @@
+:root[data-theme="light"] {
+    --bg: linear-gradient(100deg, #D3E6F5, #FFC4C4);
+    --show-sun: block;
+    --show-moon: none;
+    --textColor: #0c0c0c;
+    --color-one: #F7F9FB;
+    --color-two: #D3E6F5;
+    --color-three: #6E7B8B;
+    --color-four: #FFEEC9;
+    --color-five: #FFC4C4;
+    --color-six: #C0C0C0;
+    --animation-sun: rotate 15s linear infinite;
+    --border-option: white;
+    --links: blue;
+}
+
+:root[data-theme="dark"] {
+    --bg: linear-gradient(100deg, #1E293B, #FF5555);
+    --show-sun: none;
+    --show-moon: block;
+    --textColor: #ffffff;
+    --color-one: #000000;
+    --color-two: #1E293B;
+    --color-three: #EDEDED;
+    --color-four: #FFD700;
+    --color-five: #FF5555;
+    --color-six: #8C8C8C;
+    --animation-moon: show 4s alternate infinite both;
+    --border-option: none;
+    --transform-option: translate(100%);
+    --links: skyblue;
+}
+.formsDIV label{
+    color: var(--textColor);
+}
+a{
+    color: var(--links);
+}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: montserrat;
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main {
+    min-height: 150px;
+    margin-top: 0;
+    display: grid;
+    align-content: center;
+}
+
+.main__theme::after {
+   
+    display: block;
+    text-align: center;
+    font-size: 2.3rem;
+}
+
+.main__light {
+    display: var(--show-sun);
+    width: max-content;
+    margin: 0 auto;
+}
+
+.main__dark {
+    display: var(--show-moon);
+    width: max-content;
+    margin: 0 auto;
+}
+
+.logo img {
+    max-width: 150px;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.formsDIV {
+    width: 400px;
+    background: var(--color-one);
+    border-radius: 10px;
+}
+
+.formsDIV h1 {
+    margin-top: 0;
+    text-align: center;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid silver;
+    color: var(--color-three);
+}
+
+.formsDIV form {
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+
+form .username {
+    position: relative;
+    border-bottom: 2px solid var(--color-six);
+    margin: 30px 0;
+}
+
+.username input {
+    width: 100%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+    color: var(--color-three);
+}
+
+.reminder {
+    margin: -5px 0 20px 5px;
+    color: var(--links);
+    cursor: pointer;
+}
+
+.reminder:hover {
+    text-decoration: underline;
+}
+
+input[type="submit"] {
+    width: 100%;
+    height: 50px;
+    border: 1px solid;
+    background: var(--color-four);
+    border-radius: 50px;
+    font-size: 18px;
+    color: var(--color-one);
+}
+
+input[type="submit"]:hover {
+    cursor: pointer;
+    border-color: var(--color-five);
+    transition: .3s;
+    color: var(--color-two);
+}
+
+.sign_up {
+    margin: 10px;
+    text-align: center;
+    font-size: 16px;
+    color: var(--color-three);
+}
+
+.sign_up a {
+    color: var(--links);
+    text-decoration: none;
+}
+
+.sign_up a:hover {
+    text-decoration: underline;
+}
+
+.warnings {
+    width: 200px;
+    text-align: center;
+    margin: auto;
+    color: red;
+    padding-top: 20px;
+}
+
+#sun {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: var(--animation-sun, none);
+}
+
+[id^="star"] {
+    animation: var(--animation-moon);
+}
+
+#star2 {
+    animation-delay: .7s;
+}
+
+#star3 {
+    animation-delay: 1.4s;
+}
+
+.main_switcher {
+    width: 80px;
+    margin: 0 auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding: 5px 10px;
+    height: 40px;
+    border-radius: 999999px;
+    background-color: var(--color-four);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+}
+
+.main__check {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.main__option {
+    width: 40px;
+    height: 40px;
+    background-color: var(--color-five);
+    border-radius: 50%;
+    border: var(--border-option);
+    transition: transform .3s;
+    transform: var(--transform-option, none);
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes show {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
