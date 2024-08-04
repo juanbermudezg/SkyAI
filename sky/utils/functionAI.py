@@ -27,7 +27,6 @@ def finalDef(dictFligth):
     airportsCompleted = ['BAQ', 'BOG', 'CLO', 'CTG', 'MDE', 'MIA', 'SMR']
     message = "Datos calculados exitosamente."
     if from_location in airportsCompleted and to_location in airportsCompleted:
-        print("1")
         fecha_temp = date(year, month, day)
         hora_STD_temp = time(hourSTD, minuteSTD)
         hora_STA_temp = time(hourSTA, minuteSTA)
@@ -37,7 +36,6 @@ def finalDef(dictFligth):
         hourATD, minuteATD = adjust_time(hourSTD, minuteSTD, predictions_second[0][0])
         hourATA, minuteATA = adjust_time(hourSTA, minuteSTA, predictions_second[0][1])
     else:
-        print("2")
         hourATD = hourSTD  
         minuteATD = minuteSTD  
         hourATA = hourSTA  

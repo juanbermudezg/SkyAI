@@ -6,7 +6,8 @@ from django.contrib.auth import login, authenticate, logout
 from .models import User, Flight, Flight_AI
 from django.contrib.auth.decorators import login_required
 from .utils.functionAI import finalDef
-from django.http import Http404
+from django.http import Http404, JsonResponse
+from django.template.loader import render_to_string
 
 def helloworld(request):
     return render(request, 'construction.html')
@@ -114,6 +115,7 @@ def create_flight(request):
 def flight_detail(request, flight_id):
     flight = get_object_or_404(Flight, id=flight_id)
     flight_ai, created = Flight_AI.objects.get_or_create(original_flight=flight)
+
     if request.method == 'POST':
         if 'calculate_flight_ai' in request.POST:
             flight_ai_data = finalDef(flight.calculateAI())
@@ -122,18 +124,32 @@ def flight_detail(request, flight_id):
             flight_ai.minuteATD = flight_ai_data.get('minuteATD', None)
             flight_ai.hourATA = flight_ai_data.get('hourATA', None)
             flight_ai.minuteATA = flight_ai_data.get('minuteATA', None)
-            if flight_ai.minuteATD<10:
-                flight_ai.minuteATD = '0'+str(flight_ai.minuteATD)
-            if flight_ai.minuteATA<10:
-                flight_ai.minuteATA = '0'+str(flight_ai.minuteATA)
+            
+            if flight_ai.minuteATD < 10:
+                flight_ai.minuteATD = '0' + str(flight_ai.minuteATD)
+            if flight_ai.minuteATA < 10:
+                flight_ai.minuteATA = '0' + str(flight_ai.minuteATA)
+            
             flight_ai.save()
             message = flight_ai_data.get('message', 'Datos actualizados correctamente.')
             flight_ai_form = FlightAIDetailForm(instance=flight_ai)
-            flight_form = FlightDetailForm(instance=flight)  
-            if flight.minuteSTD<10:
-                flight.minuteSTD = '0'+str(flight.minuteSTD)
-            if flight.minuteSTA<10:
-                flight.minuteSTA = '0'+str(flight.minuteSTA)
+            flight_form = FlightDetailForm(instance=flight)
+            
+            if flight.minuteSTD < 10:
+                flight.minuteSTD = '0' + str(flight.minuteSTD)
+            if flight.minuteSTA < 10:
+                flight.minuteSTA = '0' + str(flight.minuteSTA)
+            
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                html = render_to_string('flight_detail.html', {
+                    'flight_form': flight_form,
+                    'flight_ai_form': flight_ai_form,
+                    'flight': flight,
+                    'message': message,
+                    'flight_ai': flight_ai,
+                }, request=request)
+                return JsonResponse({'html': html})
+
             return render(request, 'flight_detail.html', {
                 'flight_form': flight_form,
                 'flight_ai_form': flight_ai_form,
@@ -141,14 +157,6 @@ def flight_detail(request, flight_id):
                 'message': message,
                 'flight_ai': flight_ai,
             })
-        else:
-            flight_form = FlightDetailForm(request.POST, instance=flight)
-            flight_ai_form = FlightAIDetailForm(request.POST, instance=flight_ai)
-            
-            if flight_form.is_valid() and flight_ai_form.is_valid():
-                flight_form.save()
-                flight_ai_form.save()
-                return redirect('flight_detail', flight_id=flight.id)
     else:
         flight_form = FlightDetailForm(instance=flight)
         flight_ai_form = FlightAIDetailForm(instance=flight_ai)
@@ -157,11 +165,11 @@ def flight_detail(request, flight_id):
         if flight.minuteSTA<10:
             flight.minuteSTA = '0'+str(flight.minuteSTA)
     return render(request, 'flight_detail.html', {
-        'flight_form': flight_form,
-        'flight_ai_form': flight_ai_form,
-        'flight': flight,
-        'flight_ai': flight_ai,
-    })
+            'flight_form': flight_form,
+            'flight_ai_form': flight_ai_form,
+            'flight': flight,
+            'flight_ai': flight_ai,
+        })
     
 @login_required
 def delete_flight(request, flight_id):
