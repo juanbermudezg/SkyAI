@@ -48,7 +48,14 @@
         <form method="POST">
             <div class="username">
                 {% csrf_token %}
-                {{form}}
+                <div class="mb-3">
+                    <label for="username">Escribe tu nombre de usuario:</label>
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Usuario:">
+                </div>
+                <div class="mb-3">
+                    <label for="password">Escribe tu contraseña:</label>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Contraseña:">
+                </div>
             </div>
             <input type="submit" value="¡Iniciar sesión!" style="color: black">
         </form>

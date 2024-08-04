@@ -123,10 +123,18 @@ def flight_detail(request, flight_id):
             flight_ai.minuteATD = flight_ai_data.get('minuteATD', None)
             flight_ai.hourATA = flight_ai_data.get('hourATA', None)
             flight_ai.minuteATA = flight_ai_data.get('minuteATA', None)
+            if flight_ai.minuteATD<10:
+                flight_ai.minuteATD = '0'+str(flight_ai.minuteATD)
+            if flight_ai.minuteATA<10:
+                flight_ai.minuteATA = '0'+str(flight_ai.minuteATA)
             flight_ai.save()
             message = flight_ai_data.get('message', 'Datos actualizados correctamente.')
             flight_ai_form = FlightAIDetailForm(instance=flight_ai)
             flight_form = FlightDetailForm(instance=flight)  
+            if flight.minuteSTD<10:
+                flight.minuteSTD = '0'+str(flight.minuteSTD)
+            if flight.minuteSTA<10:
+                flight.minuteSTA = '0'+str(flight.minuteSTA)
             return render(request, 'flight_detail.html', {
                 'flight_form': flight_form,
                 'flight_ai_form': flight_ai_form,
@@ -145,7 +153,10 @@ def flight_detail(request, flight_id):
     else:
         flight_form = FlightDetailForm(instance=flight)
         flight_ai_form = FlightAIDetailForm(instance=flight_ai)
-
+        if flight.minuteSTD<10:
+                flight.minuteSTD = '0'+str(flight.minuteSTD)
+        if flight.minuteSTA<10:
+            flight.minuteSTA = '0'+str(flight.minuteSTA)
     return render(request, 'flight_detail.html', {
         'flight_form': flight_form,
         'flight_ai_form': flight_ai_form,
