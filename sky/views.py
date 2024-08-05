@@ -164,6 +164,10 @@ def flight_detail(request, flight_id):
                 flight.minuteSTD = '0'+str(flight.minuteSTD)
         if flight.minuteSTA<10:
             flight.minuteSTA = '0'+str(flight.minuteSTA)
+        if flight_ai.minuteATD < 10:
+                flight_ai.minuteATD = '0' + str(flight_ai.minuteATD)
+        if flight_ai.minuteATA < 10:
+            flight_ai.minuteATA = '0' + str(flight_ai.minuteATA)
     return render(request, 'flight_detail.html', {
             'flight_form': flight_form,
             'flight_ai_form': flight_ai_form,

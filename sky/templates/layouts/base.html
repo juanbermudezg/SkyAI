@@ -16,7 +16,6 @@
                 switcherTheme.checked = true;
             }
             switcherTheme.addEventListener('change', toggleTheme);
-
             function toggleTheme() {
                 const isChecked = switcherTheme.checked;
                 const newTheme = isChecked ? 'dark' : 'light';
@@ -24,7 +23,6 @@
                 localStorage.setItem('theme', newTheme);
                 updateSwitcher(isChecked);
             }
-
             function updateSwitcher(isChecked) {
                 const mainOption = document.querySelector('.main__option');
                 if (isChecked) {
@@ -60,7 +58,6 @@
         </nav>
     </header>
     <main>
-
         {% block content %}
         {% endblock %}
     </main>
@@ -70,7 +67,6 @@
             <a href="https://github.com/juanbermudezg" target="_blank">
                 Juan Bermudez's GitHub
             </a>
-
             <a href="https://github.com/romacorp" target="_blank">
                 Jose Rodriguez's GitHub
             </a>

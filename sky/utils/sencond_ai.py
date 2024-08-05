@@ -65,8 +65,6 @@ def es_vacaciones(fecha):
     )
 
 def verificar_fecha_hora(fecha_hora, hora1, hora2, pais='CO'):
-  
-    
     return [
         es_fin_de_semana(fecha_hora),
         es_dia_festivo(fecha_hora, pais),

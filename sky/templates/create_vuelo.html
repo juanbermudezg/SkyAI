@@ -8,7 +8,7 @@
         <div class="col-md-4 offset-md-4 mt-5">
             <form action="/flights/create/" method="POST" class="card card-body">
                 <h1>Crear vuelo</h1>
-                {{error}}
+                {{ error }}
                 <form method="post">
                     {% csrf_token %}
                     <div class="form-group">
