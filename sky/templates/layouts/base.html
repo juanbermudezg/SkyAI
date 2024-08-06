@@ -33,11 +33,11 @@
             }
         });
     </script>
-    <link rel="stylesheet" href="{% static '/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <header>
-        <a href="/"><img src="/static/src/logo.png" class="logo"></a>
+        <a href="/"><img src="{% static 'src/logo.png' %}" class="logo"></a>
         {% if user.is_authenticated %}
         {% if user.name %}
         <h1 style="align-items: center; text-align: center;">
