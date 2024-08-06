@@ -18,3 +18,4 @@ sqlparse==0.5.1
 threadpoolctl==3.5.0
 tzdata==2024.1
 xgboost==2.1.1
+whitenoise==6.3.0
