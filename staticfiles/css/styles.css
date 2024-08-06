@@ -1,0 +1,113 @@
+:root[data-theme="light"] {
+    --bg: linear-gradient(100deg, #D3E6F5, #FFC4C4);
+    --show-sun: block;
+    --show-moon: none;
+    --textColor: #0c0c0c;
+    --color-one: #F7F9FB;
+    --color-two: #D3E6F5;
+    --color-three: #b6bfc9;
+    --color-four: #FFEEC9;
+    --color-five: #FFC4C4;
+    --color-six: #C0C0C0;
+    --animation-sun: rotate 15s linear infinite;
+    --border-option: white;
+    --links: rgb(0, 162, 226);
+}
+
+:root[data-theme="dark"] {
+    --bg: linear-gradient(100deg, #1E293B, #FF5555);
+    --show-sun: none;
+    --show-moon: block;
+    --textColor: #ffffff;
+    --color-one: #000000;
+    --color-two: #1E293B;
+    --color-three: #EDEDED;
+    --color-four: #e8ea56;
+    --color-five: #FF5555;
+    --color-six: #8C8C8C;
+    --animation-moon: show 4s alternate infinite both;
+    --border-option: none;
+    --transform-option: translate(100%);
+    --links: blue;
+}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: montserrat;
+    background: var(--bg);
+    min-height: 100vh;
+    display: block;
+    justify-content: center;
+    align-items: center;
+}
+.navbarHeader{
+    background: var(--color-four);
+}
+
+header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--color-four);
+    padding: 0 50px;
+}
+header nav a{
+    color: var(--links);
+    text-decoration: none;
+    display: inline-block;
+    padding: 5px 15px;
+    transition: .5s;
+    border-radius: 10px;
+}
+header nav a:hover{
+    background-color: var(--color-three);
+}
+.logo {
+    max-width: 150px;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+
+}
+.bodyMain {
+    margin: 20px 60px;
+    border: 1px solid var(--color-one);
+    background-color: rgba(255, 255, 255, 0.777);
+    border-radius: 15px;
+    text-align: center;
+}
+.textIMG{
+    max-width: 700px;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    width: 50%;
+}
+
+.bodyMain p{
+    margin: 30px 50px;
+    text-align: justify;
+}
+
+footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--color-four);
+    padding: 0 50px;
+}
+footer nav a{
+    color: var(--links);
+    text-decoration: none;
+    display: inline-block;
+    padding: 5px 15px;
+    transition: .5s;
+    border-radius: 10px;
+}
+footer nav a:hover{
+    background-color: var(--color-three);
+}
