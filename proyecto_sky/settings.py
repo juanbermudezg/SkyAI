@@ -82,12 +82,12 @@ WSGI_APPLICATION = 'proyecto_sky.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mysql.connector.django',
-        'NAME': 'bcrakodssdyjyssuubwk',
-        'USER': 'uoqg7nzpg3rzf2ng',
-        'PASSWORD': '7RKqUMyXImmr67DGeJ0O',
-        'HOST': 'bcrakodssdyjyssuubwk-mysql.services.clever-cloud.com',  # o la dirección IP de tu servidor MySQL
-        'PORT': '20690',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'b6netopozcisif9wdflp',
+        'USER': 'ui1dpak9nzdsxao3',
+        'PASSWORD': 'bwDH13dsYMN3ckuYE8t1',
+        'HOST': 'b6netopozcisif9wdflp-mysql.services.clever-cloud.com',  # o la dirección IP de tu servidor MySQL
+        'PORT': '3306',
     }
 }
 
