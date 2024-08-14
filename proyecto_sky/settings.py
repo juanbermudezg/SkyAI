@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'proyecto_sky.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'mysql.connector.django',
         'NAME': 'bcrakodssdyjyssuubwk',
         'USER': 'uoqg7nzpg3rzf2ng',
         'PASSWORD': '7RKqUMyXImmr67DGeJ0O',
