@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sky',
     #3rd party
-    'django_browser_reload'
+    'django_browser_reload',
+    'rest_framework',
 ]
 
 
@@ -82,11 +83,11 @@ WSGI_APPLICATION = 'proyecto_sky.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'bveipwcnp8dwosg2948d',
+        'NAME': 'bcrakodssdyjyssuubwk',
         'USER': 'uoqg7nzpg3rzf2ng',
         'PASSWORD': '7RKqUMyXImmr67DGeJ0O',
-        'HOST': 'bveipwcnp8dwosg2948d-mysql.services.clever-cloud.com',  # o la dirección IP de tu servidor MySQL
-        'PORT': '3306',
+        'HOST': 'bcrakodssdyjyssuubwk-mysql.services.clever-cloud.com',  # o la dirección IP de tu servidor MySQL
+        'PORT': '20690',
     }
 }
 

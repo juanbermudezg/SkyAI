@@ -33,4 +33,5 @@ urlpatterns = [
     path('profile/<int:profile_id>/', views.profile_detail, name="profile_detail"),
     path('profile/<int:profile_id>/delete_profile/', views.delete_profile, name='delete_profile'),
     path('profile/<int:profile_id>/update_profile/', views.update_profile, name='update_profile'),
+    path('api/', include('sky.api.urls')),
 ]
